@@ -50,3 +50,5 @@ rsconnect/
 .positai
 
 data/raw-data/migration_ensemble8.rds
+Marieke_nut.R
+species_list.Rdata

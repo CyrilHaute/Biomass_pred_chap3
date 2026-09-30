@@ -47,6 +47,8 @@ species_trait <- species_traits_final |>
 species <- species |> 
   dplyr::filter(species_name %in% species_trait$species_name)
 
+load("species_list.Rdata")
+
 # Check species names first
 
 validname <- rfishbase::validate_names(species$species_name)

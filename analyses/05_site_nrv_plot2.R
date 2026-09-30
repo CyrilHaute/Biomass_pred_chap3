@@ -68,7 +68,7 @@ delta_stat <- delta |>
 
 delta_nrv_country_plot <- delta |>
   dplyr::inner_join(iso) |>
-  dplyr::filter(iso3 %in% c("CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF")) |>
+  # dplyr::filter(iso3 %in% c("CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF")) |>
   dplyr::filter(scenario %in% c("SSP1-2.6",
                                 "SSP5-8.5")) |> 
   dplyr::ungroup() |> 
@@ -205,7 +205,7 @@ delta_vs_dist |>
 site_nrv_h_plot <- site_nrv_h |> 
   dplyr::full_join(iso) |> 
   dplyr::filter(
-    iso3 %in% c(NA, "CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF"),
+    # iso3 %in% c(NA, "CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF"),
     scenario %in% c(NA, "ssp585"))
 
 # site_nrv_h_plot <- site_nrv_h_plot[-which(site_nrv_h_plot$country == "Caribbean Sea"),]
