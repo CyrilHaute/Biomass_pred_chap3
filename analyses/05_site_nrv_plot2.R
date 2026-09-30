@@ -68,7 +68,7 @@ delta_stat <- delta |>
 
 delta_nrv_country_plot <- delta |>
   dplyr::inner_join(iso) |>
-  dplyr::filter(iso3 %in% c("CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF")) |>
+  # dplyr::filter(iso3 %in% c("CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF")) |>
   dplyr::filter(scenario %in% c("SSP1-2.6",
                                 "SSP5-8.5")) |> 
   dplyr::ungroup() |> 
@@ -107,7 +107,6 @@ delta_vs_dist |>
   geom_point(aes(color = country))
 
 delta_vs_dist |> 
-  # dplyr::filter(country != "Brazil") |>
   dplyr::group_by(country, scenario) |> 
   dplyr::summarise(mean_delta_dist_nrv = mean(delta_dist_to_NRV),
                    sd = sd(delta_dist_to_NRV),
@@ -120,7 +119,7 @@ delta_vs_dist |>
   theme_bw()
 
 delta_vs_dist |> 
-  dplyr::group_by(scenario) |> 
+  dplyr::group_by(scenario, year) |> 
   dplyr::summarise(q05 = quantile(dist_to_NRV, probs = 0.05),
                    median = median(dist_to_NRV),
                    mean = mean(dist_to_NRV),
@@ -129,7 +128,7 @@ delta_vs_dist |>
                    min = min(dist_to_NRV),
                    max = max(dist_to_NRV))
 
-delta_vs_dist |> 
+ delta_vs_dist |> 
   ggplot(aes(x = dist_to_NRV)) +
   geom_histogram(position = "identity", color = "#e9ecef", binwidth = 0.01) +
   facet_wrap(~scenario) +
