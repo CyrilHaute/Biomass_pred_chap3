@@ -241,8 +241,8 @@ delta_dist_nrv_migration_vs_state_Map <-
     panel.background = element_rect(fill = "white", color = NA)
   )
 
-# ggsave("figures/delta_dist_nrv_migration_vs_state_Map_ssp585.png", delta_dist_nrv_migration_vs_state_Map, height = 7)
-ggsave("figures/delta_dist_nrv_migration_vs_state_Map_ssp126.png", delta_dist_nrv_migration_vs_state_Map, height = 7)
+ggsave("figures/delta_dist_nrv_migration_vs_state_Map_ssp585.png", delta_dist_nrv_migration_vs_state_Map, height = 7)
+# ggsave("figures/delta_dist_nrv_migration_vs_state_Map_ssp126.png", delta_dist_nrv_migration_vs_state_Map, height = 7)
 
 
 

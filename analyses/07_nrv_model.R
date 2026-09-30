@@ -315,17 +315,17 @@ var_imp_dtf |>
                    delta_sum = sum(delta_pr),
                    delta_sum_n = delta_sum/n)
 #   cov_type     n      delta_sum   delta_sum_n
-# 1 BIOT        23      57.1        2.48
+# 1 BIOT        23      57.2        2.49
 # 2 ENV          4      14.9        3.73
-# 3 HAB          9      12.4        1.38
-# 4 HUM          5      15.3        3.07
+# 3 HAB          9      12.5        1.39
+# 4 HUM          5      15.1        3.02
 
 select_cov <- var_imp_function(model_nrv)$covariates[order(var_imp_function(model_nrv)$delta_pr, decreasing = TRUE)]
 select_cov_10 <- select_cov[1:10]
 select_cov_15 <- select_cov[1:15]
 
 sum(sort(var_imp_dtf$delta_pr, decreasing = TRUE)[1:10])
-# sum 10 best = 45.85671%
+# sum 10 best = 45.94891%
 
 cov_2075_site_ssp126 <- cov_2075_site |> 
   dplyr::filter(scenario == "ssp126") |> 
@@ -427,15 +427,15 @@ partial_var_nrv_10 <- lapply(1:length(select_cov_10), function(i) {
   
 })
 names(partial_var_nrv_10) <- c("Sea Surface Temperature",
-                               "Sea Surface Salinity",
                                "Biomass change",
+                               "Sea Surface Salinity",
                                "Biomass change herbi.",
                                "Human Gravity",
                                "Biomass change macro.",
                                "Biomass change pisci.",
-                               "Biomass total",
-                               "Gross Domestic Product",
-                               "Reef extent")
+                               "Reef extent",
+                               "Human Development Index",
+                               "Biomass total")
 
 partial_plot_nrv_10 <- partial_plot_function(partial_data = partial_var_nrv_10,
                                              color_values = c("SSP1-2.6" = color_scale[3],
@@ -445,8 +445,8 @@ partial_plot_nrv_10 <- partial_plot_function(partial_data = partial_var_nrv_10,
                                              ncol = 2)
 
 imp_partial_nrv_plot_migration <- imp_var_nrv + 
-  patchwork::inset_element(partial_plot_nrv_10, left = 0.55, bottom = 0.01, right = 1, top = 0.85)
-ggsave(imp_partial_nrv_plot_migration, file = "figures/imp_partial_nrv_plot_migration3.png", height = 15, width = 21)
+  patchwork::inset_element(partial_plot_nrv_10, left = 0.58, bottom = 0.01, right = 1, top = 0.66)
+ggsave(imp_partial_nrv_plot_migration, file = "figures/imp_partial_nrv_plot_migration3.png", height = 15, width = 22)
 
 
 
@@ -490,20 +490,20 @@ partial_var_nrv_15 <- lapply(1:length(select_cov_15), function(i) {
   
 })
 names(partial_var_nrv_15) <- c("Sea Surface Temperature",
-                               "Sea Surface Salinity",
                                "Biomass change",
+                               "Sea Surface Salinity",
                                "Biomass change herbi.",
                                "Human Gravity",
                                "Biomass change macro.",
                                "Biomass change pisci.",
-                               "Biomass total",
-                               "Gross Domestic Product",
                                "Reef extent",
                                "Human Development Index",
+                               "Biomass total",
+                               "Gross Domestic Product",
                                "Mean species length",
-                               "N planktivore",
                                "N species",
-                               "Mean species K")
+                               "Mean species K",
+                               "Number of NGO")
 
 partial_plot_nrv_15 <- partial_plot_function(partial_data = partial_var_nrv_15,
                                              color_values = c("SSP1-2.6" = color_scale[3],

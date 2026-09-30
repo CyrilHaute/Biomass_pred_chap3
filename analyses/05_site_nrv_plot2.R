@@ -204,7 +204,7 @@ delta_vs_dist |>
 site_nrv_h_plot <- site_nrv_h |> 
   dplyr::full_join(iso) |> 
   dplyr::filter(
-    iso3 %in% c(NA, "CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF"),
+    # iso3 %in% c(NA, "CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF"),
     scenario %in% c(NA, "ssp585"))
 
 # site_nrv_h_plot <- site_nrv_h_plot[-which(site_nrv_h_plot$country == "Caribbean Sea"),]

@@ -239,7 +239,6 @@ dist_nrv_plot <- patchwork::wrap_plots(
     "
   )
 
-# ggsave(dist_nrv_plot, file = "figures/dist_nrv_plot.png", width = 10, height = 11)
 ggsave(dist_nrv_plot, file = "figures/dist_nrv_plot_conv_om3.png", width = 10, height = 11)
 
 load("data/derived-data/nutrient_quality_migration.Rdata")
