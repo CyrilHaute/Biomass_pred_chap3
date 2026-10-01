@@ -63,8 +63,8 @@ biomass_site <- biomass_longer |>
   dplyr::summarise(biomass = sum(biomass_g_500m2))
 
 delta_biomass <- biomass_site |> 
-  # dplyr::filter(scenario == "ssp126")
-  dplyr::filter(scenario == "ssp585")
+  dplyr::filter(scenario == "ssp126")
+  # dplyr::filter(scenario == "ssp585")
 
 delta_log <- unlist(delta_biomass |> 
                       dplyr::ungroup() |> 
@@ -280,28 +280,10 @@ text_plot <- indadequate_intake_cr |>
                    indadequate_intake = mean(indadequate_intake))
 
 
-text_plot[text_plot$iso3 == "PNG",]$indadequate_intake <- 87
-text_plot[text_plot$iso3 == "SYC",]$indadequate_intake <- 93
-text_plot[text_plot$iso3 == "TON",]$indadequate_intake <- 92
-text_plot[text_plot$iso3 == "AUS",]$mean_dist_nrv <- 0.7
-text_plot[text_plot$iso3 == "JPN",]$mean_dist_nrv <- 0.66
-text_plot[text_plot$iso3 == "COL",]$mean_dist_nrv <- 0.61
+text_plot[text_plot$iso3 == "AUS",]$indadequate_intake <- 16.5
+text_plot[text_plot$iso3 == "WSM",]$indadequate_intake <- 30.5
+text_plot[text_plot$iso3 == "COL",]$mean_dist_nrv <- 0.52
 text_plot[text_plot$iso3 == "CRI",]$indadequate_intake <- 35
-text_plot[text_plot$iso3 == "SLB",]$indadequate_intake <- 34.5
-text_plot[text_plot$iso3 == "PAN",]$indadequate_intake <- 43
-text_plot[text_plot$iso3 == "TZA",]$indadequate_intake <- 42.5
-text_plot[text_plot$iso3 == "IDN",]$indadequate_intake <- 38.5
-text_plot[text_plot$iso3 == "IDN",]$mean_dist_nrv <- 0.67
-
-text_plot[text_plot$iso3 == "ECU",]$mean_dist_nrv <- 0.57
-text_plot[text_plot$iso3 == "ECU",]$indadequate_intake <- text_plot[text_plot$iso3 == "ECU",]$indadequate_intake - 2
-text_plot[text_plot$iso3 == "IDN",]$mean_dist_nrv <- 0.69
-text_plot[text_plot$iso3 == "IDN",]$indadequate_intake <- text_plot[text_plot$iso3 == "IDN",]$indadequate_intake - 2
-text_plot[text_plot$iso3 == "TZA",]$indadequate_intake <- 41.5
-text_plot[text_plot$iso3 == "TZA",]$mean_dist_nrv <- 0.65
-text_plot[text_plot$iso3 == "CRI",]$indadequate_intake <- text_plot[text_plot$iso3 == "CRI",]$indadequate_intake - 4
-text_plot[text_plot$iso3 == "COL",]$indadequate_intake <- text_plot[text_plot$iso3 == "COL",]$indadequate_intake - 4
-text_plot[text_plot$iso3 == "SLB",]$indadequate_intake <- text_plot[text_plot$iso3 == "SLB",]$indadequate_intake - 4
 
 indadequate_intake_nrv_plot_2075 <- indadequate_intake_cr |> 
   dplyr::inner_join(cov_baseline_site) |> 
