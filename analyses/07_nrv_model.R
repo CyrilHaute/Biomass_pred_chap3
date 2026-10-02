@@ -329,16 +329,20 @@ sum(sort(var_imp_dtf$delta_pr, decreasing = TRUE)[1:10])
 
 cov_2075_site_ssp126 <- cov_2075_site |> 
   dplyr::filter(scenario == "ssp126") |> 
-  dplyr::select(-scenario)
+  dplyr::select(-scenario) |> 
+  dplyr::mutate(gdp_2075 = log10(gdp_2075 + 1))
 cov_2075_site_ssp245 <- cov_2075_site |> 
   dplyr::filter(scenario == "ssp245") |> 
-  dplyr::select(-scenario)
+  dplyr::select(-scenario) |> 
+  dplyr::mutate(gdp_2075 = log10(gdp_2075 + 1))
 cov_2075_site_ssp370 <- cov_2075_site |> 
   dplyr::filter(scenario == "ssp370") |> 
-  dplyr::select(-scenario)
+  dplyr::select(-scenario) |> 
+  dplyr::mutate(gdp_2075 = log10(gdp_2075 + 1))
 cov_2075_site_ssp585 <- cov_2075_site |> 
   dplyr::filter(scenario == "ssp585") |> 
-  dplyr::select(-scenario)
+  dplyr::select(-scenario) |> 
+  dplyr::mutate(gdp_2075 = log10(gdp_2075 + 1))
 
 model_nrv_126 <- ranger::ranger(x = cov_2075_site_ssp126[!colnames(cov_2075_site_ssp126) %in% c("iso3",
                                                                                   "scenario",
@@ -628,7 +632,7 @@ graph_code <- paste0(
   
   "digraph SEM {
 
-  graph [label = 'B. Structural Equation Modeling path diagram', labelloc = 't', fontsize = 17, layout = dot, rankdir = LR, ratio = 0.5]
+  graph [label = 'B. Structural Equation Modeling path diagram', labelloc = 't', fontsize = 11, layout = dot, rankdir = LR, ratio = 0.5]
   
   node [shape = box, fontsize = 10]
   
