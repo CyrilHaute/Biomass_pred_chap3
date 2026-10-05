@@ -91,6 +91,7 @@ delta_biomass <- delta_biomass |>
   dplyr::mutate(site_code = paste0(site_code, "_", depth))
 
 load("data/raw-data/1c_species_traits_final.Rdata")
+load("data/raw-data/species_range_shift.Rdata")
 
 species_traits_final <- species_traits_final[which(is.na(species_traits_final$trophic_guild) == FALSE),]
 species_traits_final[species_traits_final$trophic_guild == "Herbivores Microvores Detritivores",]$trophic_guild <- "herbivores"
@@ -104,7 +105,8 @@ troph_species <- species_traits_final |>
   dplyr::inner_join(species_traits_final[,colnames(species_traits_final) %in% c("fishbase_name", "trophic_guild", "Length", "K", "geographic_range_Albouy19")] |> 
                       dplyr::rename(species_name = fishbase_name)) |> 
   unique() |> 
-  tidyr::drop_na()
+  tidyr::drop_na() |> 
+  dplyr::inner_join(species_range_shift)
 
 # How many species per site ?
 
@@ -122,7 +124,8 @@ troph_site <- species_trait |>
   dplyr::summarise(mean_troph = mean(Troph),
                    mean_length = mean(Length),
                    mean_geo = mean(geographic_range_Albouy19),
-                   mean_k = mean(K))
+                   mean_k = mean(K),
+                   mean_n_future = mean(n_future))
 
 # Number of species per troph cat and per site
 
@@ -255,7 +258,7 @@ dtf_var_name <- data.frame(covariates = colnames(cov_2075_site)[!colnames(cov_20
                                                                                                 "delta_dist_to_NRV")],
                            clear_name = c("Depth", "scenario", "Sea Water Chlorophyll", "pH", "Sea Surface Salinity", "Sea Surface Temperature", 
                                           "Gross Domestic Product", "Human Gravity", "N species", "Mean trophic level", "Mean species length",
-                                          "Mean species geographic range", "Mean species K", 
+                                          "Mean species geographic range", "Mean species K", "Mean species range shift",
                                           "N corallivore", "N crustacivore",
                                           "N herbivore", "N macroinvertivore", "N microinvertivore",
                                           "N piscivore", "N planktivore", "N sessile invertivore",
@@ -272,7 +275,8 @@ dtf_var_name <- data.frame(covariates = colnames(cov_2075_site)[!colnames(cov_20
                                             clear_name %in% c("Gross Domestic Product", "Human Gravity", "Human Development Index", 
                                                               "Marine Ecosystem Dependency", "Number of NGO") ~ "HUM",
                                             clear_name %in% c("N species", "Mean trophic level", "Mean species length",
-                                                              "Mean species geographic range", "Mean species K", "N corallivore", "N crustacivore",
+                                                              "Mean species geographic range", "Mean species K", "Mean species range shift",
+                                                              "N corallivore", "N crustacivore",
                                                               "N herbivore", "N macroinvertivore", "N microinvertivore",
                                                               "N piscivore", "N planktivore", "N sessile invertivore",
                                                               "Biomass change corallivore", "Biomass change crustacivore", "Biomass change herbivore", 
@@ -315,17 +319,17 @@ var_imp_dtf |>
                    delta_sum = sum(delta_pr),
                    delta_sum_n = delta_sum/n)
 #   cov_type     n      delta_sum   delta_sum_n
-# 1 BIOT        23      57.2        2.49
-# 2 ENV          4      14.9        3.73
-# 3 HAB          9      12.5        1.39
-# 4 HUM          5      15.1        3.02
+# 1 BIOT        24      59.3        2.47
+# 2 ENV          4      14.3        3.56
+# 3 HAB          9      12.0        1.33
+# 4 HUM          5      14.2        2.84
 
 select_cov <- var_imp_function(model_nrv)$covariates[order(var_imp_function(model_nrv)$delta_pr, decreasing = TRUE)]
 select_cov_10 <- select_cov[1:10]
 select_cov_15 <- select_cov[1:15]
 
 sum(sort(var_imp_dtf$delta_pr, decreasing = TRUE)[1:10])
-# sum 10 best = 45.94891%
+# sum 10 best = 45.01662%
 
 cov_2075_site_ssp126 <- cov_2075_site |> 
   dplyr::filter(scenario == "ssp126") |> 
@@ -435,11 +439,11 @@ names(partial_var_nrv_10) <- c("Sea Surface Temperature",
                                "Sea Surface Salinity",
                                "Biomass change herbi.",
                                "Human Gravity",
+                               "Mean species range shift",
                                "Biomass change macro.",
                                "Biomass change pisci.",
-                               "Reef extent",
-                               "Human Development Index",
-                               "Biomass total")
+                               "Biomass total",
+                               "Gross Domestic Product")
 
 partial_plot_nrv_10 <- partial_plot_function(partial_data = partial_var_nrv_10,
                                              color_values = c("SSP1-2.6" = color_scale[3],
@@ -449,8 +453,8 @@ partial_plot_nrv_10 <- partial_plot_function(partial_data = partial_var_nrv_10,
                                              ncol = 2)
 
 imp_partial_nrv_plot_migration <- imp_var_nrv + 
-  patchwork::inset_element(partial_plot_nrv_10, left = 0.58, bottom = 0.01, right = 1, top = 0.66)
-ggsave(imp_partial_nrv_plot_migration, file = "figures/imp_partial_nrv_plot_migration3.png", height = 15, width = 22)
+  patchwork::inset_element(partial_plot_nrv_10, left = 0.62, bottom = 0.01, right = 1, top = 0.66)
+ggsave(imp_partial_nrv_plot_migration, file = "figures/imp_partial_nrv_plot_migration3.png", height = 16, width = 25)
 
 
 
@@ -498,16 +502,16 @@ names(partial_var_nrv_15) <- c("Sea Surface Temperature",
                                "Sea Surface Salinity",
                                "Biomass change herbi.",
                                "Human Gravity",
+                               "Mean species range shift",
                                "Biomass change macro.",
                                "Biomass change pisci.",
-                               "Reef extent",
-                               "Human Development Index",
                                "Biomass total",
                                "Gross Domestic Product",
-                               "Mean species length",
+                               "Reef extent",
+                               "Human Development Index",
                                "N species",
-                               "Mean species K",
-                               "Number of NGO")
+                               "Mean species length",
+                               "Mean species K")
 
 partial_plot_nrv_15 <- partial_plot_function(partial_data = partial_var_nrv_15,
                                              color_values = c("SSP1-2.6" = color_scale[3],
@@ -603,7 +607,8 @@ sem <- piecewiseSEM::psem(all_models[[1]],
                           all_models[[3]],
                           all_models[[4]],
                           all_models[[5]],
-                          all_models[[6]])
+                          all_models[[6]],
+                          all_models[[7]])
 
 a_sem <- anova(sem)
 
@@ -632,7 +637,7 @@ graph_code <- paste0(
   
   "digraph SEM {
 
-  graph [label = 'B. Structural Equation Modeling path diagram', labelloc = 't', fontsize = 11, layout = dot, rankdir = LR, ratio = 0.5]
+  graph [label = 'B. Structural Equation Modeling path diagram', labelloc = 't', fontsize = 15, layout = dot, rankdir = LR, ratio = 0.5]
   
   node [shape = box, fontsize = 10]
   
