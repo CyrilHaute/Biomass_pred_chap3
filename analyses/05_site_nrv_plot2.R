@@ -204,7 +204,7 @@ delta_vs_dist |>
 site_nrv_h_plot <- site_nrv_h |> 
   dplyr::full_join(iso) |> 
   dplyr::filter(
-    # iso3 %in% c(NA, "CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF"),
+    iso3 %in% c(NA, "CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF"),
     scenario %in% c(NA, "ssp585"))
 
 # site_nrv_h_plot <- site_nrv_h_plot[-which(site_nrv_h_plot$country == "Caribbean Sea"),]
@@ -288,10 +288,16 @@ nrv_site_plot <- ggplot() +
                arrow = arrow(length = unit(0.3, "cm")),
                color = "#377EB8",
                linewidth = 1) +
-  geom_point(data = site_nrv_country_y, 
+  geom_point(data = site_nrv_country_y,
              aes(x = Axis.1, y = Axis.2, color = iso3, shape = year),
              size = 5) +
-  # scale_color_manual(values = ggthemes::stata_pal("s1rcolor")(15)[-c(1,2)]) +
+  # scale_color_discrete(guide = "none") +
+  # ggrepel::geom_text_repel(data = site_nrv_country_y[site_nrv_country_y$year == "2024",],
+  #                          aes(x = Axis.1, y = Axis.2, label = iso3),
+  #                          min.segment.length = 0,
+  #                          seed = 42, box.padding = 0.7,
+  #                          size = 5) +
+  scale_color_manual(values = pals::kelly(20)[-c(1, 2)]) +
   geom_point(data = subset(site_nrv_h_plot, highlight == TRUE),
              aes(x = Axis.1, y = Axis.2, fill = type),
              color = "#de7309",
@@ -319,7 +325,7 @@ nrv_site_plot <- ggplot() +
 test_migration <- patchwork::wrap_plots(nrv_site_plot / delta_nrv_country_plot)
 
 # ggsave(test_migration, file = "figures/test_global_migration_conv_om3.png", height = 16, width = 14)
-ggsave(test_migration, file = "figures/test_global_migration_conv_om3_all.png", height = 16, width = 14)
+# ggsave(test_migration, file = "figures/test_global_migration_conv_om3_all.png", height = 16, width = 14)
 
 load("data/raw-data/1c_species_traits_final.Rdata")
 load("data/derived-data/distance_to_nrv_migration_conv_om3.Rdata")
