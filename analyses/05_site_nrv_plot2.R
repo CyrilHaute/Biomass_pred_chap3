@@ -314,7 +314,7 @@ nrv_site_plot <- ggplot() +
         axis.title = element_text(size = 17),
         legend.text = element_text(size = 15),
         title = element_text(size = 19),
-        axis.title.y = element_text(vjust = -40)) +
+        axis.title.y = element_text(vjust = -33)) +
   geom_text(data = arrows_df,
             aes(x = xend_label, y = yend_label, label = nutrient),
             color = "#377EB8", hjust = -0.1, size = 6) +
