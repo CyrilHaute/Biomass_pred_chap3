@@ -68,7 +68,7 @@ delta_stat <- delta |>
 
 delta_nrv_country_plot <- delta |>
   dplyr::inner_join(iso) |>
-  # dplyr::filter(iso3 %in% c("CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF")) |>
+  dplyr::filter(iso3 %in% c("CHN", "TZA", "MOZ", "WLF", "WSM", "BRA", "AUS", "TON", "JPN", "COK", "PYF")) |>
   dplyr::filter(scenario %in% c("SSP1-2.6",
                                 "SSP5-8.5")) |> 
   dplyr::ungroup() |> 
@@ -324,7 +324,7 @@ nrv_site_plot <- ggplot() +
 
 test_migration <- patchwork::wrap_plots(nrv_site_plot / delta_nrv_country_plot)
 
-# ggsave(test_migration, file = "figures/test_global_migration_conv_om3.png", height = 16, width = 14)
+ggsave(test_migration, file = "figures/test_global_migration_conv_om3c.png", height = 16, width = 14)
 # ggsave(test_migration, file = "figures/test_global_migration_conv_om3_all.png", height = 16, width = 14)
 
 load("data/raw-data/1c_species_traits_final.Rdata")
