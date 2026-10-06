@@ -548,13 +548,13 @@ cov_2075_site_585[!colnames(cov_2075_site_585) %in% c("site_code",
 ############ SEM ############ 
 
 cov_biot_dir <- dtf_var_name |> 
-  dplyr::filter(covariates %in% select_cov_10,
+  dplyr::filter(covariates %in% select_cov_15,
                 cov_type == "BIOT") |> 
   dplyr::select(covariates) |> 
   unlist()
 
 cov_abiot_indir <- dtf_var_name |> 
-  dplyr::filter(covariates %in% select_cov_10,
+  dplyr::filter(covariates %in% select_cov_15,
                 cov_type %in% c("ENV", "HAB", "HUM")) |> 
   dplyr::select(covariates) |> 
   unlist()
@@ -608,7 +608,9 @@ sem <- piecewiseSEM::psem(all_models[[1]],
                           all_models[[4]],
                           all_models[[5]],
                           all_models[[6]],
-                          all_models[[7]])
+                          all_models[[7]],
+                          all_models[[8]],
+                          all_models[[9]])
 
 a_sem <- anova(sem)
 
@@ -617,7 +619,7 @@ piecewiseSEM::coefs(sem)
 piecewiseSEM::rsquared(sem)
 
 coefs <- piecewiseSEM::coefs(sem, standardize = "scale")
-coefs_sig <- subset(coefs, P.Value < 0.05)
+coefs_sig <- subset(coefs, P.Value < 0.001)
 
 edges <- paste0(
   coefs_sig$Predictor, " -> ", coefs_sig$Response,
@@ -639,7 +641,7 @@ graph_code <- paste0(
 
   graph [label = 'B. Structural Equation Modeling path diagram', labelloc = 't', fontsize = 15, layout = dot, rankdir = LR, ratio = 0.5]
   
-  node [shape = box, fontsize = 10]
+  node [shape = box, fontsize = 12]
   
   edge [fontsize = 10, arrowhead = vee]",
   
