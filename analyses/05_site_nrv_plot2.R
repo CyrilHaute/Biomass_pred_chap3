@@ -324,7 +324,7 @@ nrv_site_plot <- ggplot() +
 
 test_migration <- patchwork::wrap_plots(nrv_site_plot / delta_nrv_country_plot)
 
-ggsave(test_migration, file = "figures/test_global_migration_conv_om3c.png", height = 16, width = 14)
+ggsave(test_migration, file = "figures/test_global_migration_conv_om3cc.png", height = 16, width = 14)
 # ggsave(test_migration, file = "figures/test_global_migration_conv_om3_all.png", height = 16, width = 14)
 
 load("data/raw-data/1c_species_traits_final.Rdata")
